@@ -39,6 +39,17 @@ footer{text-align:center; margin:50px 20px 30px 20px; font-size:1em; color:#555;
 .emoji{position:absolute; font-size:28px; opacity:0.9; user-select:none; animation-name:fall; animation-timing-function:linear; animation-iteration-count:infinite;}
 @keyframes fall{0%{transform:translate3d(var(--x), -50px, 0) rotateZ(0deg);} 100%{transform:translate3d(var(--x), 100vh, 0) rotateZ(360deg);}}
 .total-section{margin:20px; font-size:1.3em; font-weight:600;}
+.review-card{
+  background:linear-gradient(135deg,#ffe0b2,#ffd699);
+  padding:15px 20px;
+  border-radius:12px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.25);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.review-card:hover{
+  transform: translateY(-5px) rotateX(3deg) rotateY(3deg);
+  box-shadow:0 12px 28px rgba(0,0,0,0.35);
+}
 </style>
 </head>
 <body>
@@ -78,7 +89,37 @@ footer{text-align:center; margin:50px 20px 30px 20px; font-size:1em; color:#555;
 <a class="button" id="upi-btn" href="upi://pay?pa=8827755823@nyes&pn=A1+Pani+Puri&cu=INR" target="_blank">Pay via UPI</a>
 
 <h2>About Aziz Khan</h2>
-<p>Aziz Khan, the mastermind behind A1 Pani Puri, has been serving the most delectable street food for over a decade. Every puri is made fresh daily, every chutney crafted with love. Every bite leaves customers craving more!</p>
+<p>
+Aziz Khan, the visionary behind A1 Pani Puri, has been delighting food lovers for over a decade. Every puri is freshly made, each chutney crafted with authentic spices and love. His dedication to taste and quality ensures every customer leaves with a smile. Passionate about street food culture, Aziz continues to innovate and serve unique flavors. Whether it’s a regular day or a festive occasion, his creations bring joy and nostalgia to everyone who visits. Experience the magic of his culinary expertise with every bite!
+</p>
+
+<h2>⭐ Customer Reviews</h2>
+<div id="reviews-container" style="display:flex; flex-direction:column; gap:15px;">
+  <div class="review-card">⭐⭐⭐⭐⭐ "Best pani puri I ever had! Aziz bhai ka haath hai toh taste alag hi hai!" — Rahul S.</div>
+  <div class="review-card">⭐⭐⭐⭐⭐ "Dahi puri ekdum heavenly! Daily aata hu office se pehle." — Priya M.</div>
+  <div class="review-card">⭐⭐⭐⭐⭐ "Aloo chaat ka swaad bhool jaaoge nahi! Value for money best hai." — Vikram K.</div>
+</div>
+
+<h3>Submit Your Review</h3>
+<form id="review-form" style="margin:20px;">
+  <label for="name">Your Name:</label><br>
+  <input type="text" id="name" required style="margin:5px 0; padding:5px; border-radius:5px; border:1px solid #ccc; width:100%;"><br>
+
+  <label for="rating">Rating:</label><br>
+  <select id="rating" required style="margin:5px 0; padding:5px; border-radius:5px; border:1px solid #ccc; width:100%;">
+    <option value="" disabled selected>Select stars</option>
+    <option value="5">⭐⭐⭐⭐⭐ 5</option>
+    <option value="4">⭐⭐⭐⭐ 4</option>
+    <option value="3">⭐⭐⭐ 3</option>
+    <option value="2">⭐⭐ 2</option>
+    <option value="1">⭐ 1</option>
+  </select><br>
+
+  <label for="review-text">Review:</label><br>
+  <textarea id="review-text" required rows="3" style="width:100%; margin:5px 0; padding:5px; border-radius:5px; border:1px solid #ccc;"></textarea><br>
+
+  <button type="submit" class="button">Submit Review</button>
+</form>
 
 <footer>© 2024 A1 Pani Puri. Made with ❤️ by Aziz Khan. Taste the tradition!</footer>
 
@@ -116,7 +157,24 @@ function updateTotal(){
 }
 
 qtyInputs.forEach(input=>input.addEventListener('input', updateTotal));
-</script>
 
+// Review submission system
+const form=document.getElementById('review-form');
+const reviewsContainer=document.getElementById('reviews-container');
+
+form.addEventListener('submit', function(e){
+  e.preventDefault();
+  const name=document.getElementById('name').value.trim();
+  const rating=document.getElementById('rating').value.trim();
+  const text=document.getElementById('review-text').value.trim();
+  if(name && rating && text){
+    const div=document.createElement('div');
+    div.classList.add('review-card');
+    div.innerHTML=`${'⭐'.repeat(rating)} "${text}" — ${name}`;
+    reviewsContainer.appendChild(div);
+    form.reset();
+  }
+});
+</script>
 </body>
 </html>
